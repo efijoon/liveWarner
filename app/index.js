@@ -13,6 +13,7 @@ const helmet = require('helmet');
 const csrf = require('csurf');
 const csrfErrorHandler = require('app/http/middleware/csrfErrorHandler');
 const rememberLogin = require('app/http/middleware/rememberLogin');
+const warner = require('./http/middleware/warner');
 
 module.exports = class Application {
     constructor() {
@@ -74,6 +75,15 @@ module.exports = class Application {
             app.locals = new Helpers(req, res).getObjects();
             next();
         });
+
+        let i = 0;
+        app.use(function(req , res , next) {
+            if(i < 1) {
+                warner.handle(req, res, next)
+            }
+            i++;
+            next();
+        }); 
     }
 
     setRouters() {
