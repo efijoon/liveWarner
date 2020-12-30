@@ -97,7 +97,7 @@
                                                             <div
                                                                 class="d-flex align-items-center position-relative ng-pristine ng-invalid ng-touched">
                                                                 <div class="col-4 px-1 position-static">
-                                                                    <select id="compare-field" name="comparefield"
+                                                                    <select id="compare-field" name="compareField"
                                                                         class="custom-select h-100 ng-pristine ng-valid ng-touched">
                                                                         <option value="0">آخرین قیمت</option>
                                                                         <option value="1"> درصد تغییر قیمت
@@ -206,7 +206,8 @@
         symbolDataRequest();
     });
 
-    compareField.addEventListener('change', () => {
+    compareField.addEventListener('change', (e) => {
+        if(e.target.value == 1 || e.target.value == 3) validatePercentFields(compareNumber.value);
         warnigNameCompleter();
     })
 
@@ -225,7 +226,7 @@
     })
 
     compareNumber.addEventListener('keyup', (e) => {
-        let reg = /^\d*\.?\d*$/;
+        let reg = /^-?\d*\.?\d*$/;
 
         if(reg.test(e.target.value)) warnigNameCompleter();
             else {
@@ -240,6 +241,8 @@
                     timer: 5000
                 })
             }
+
+        if(compareField.value == 1 || compareField.value == 3) validatePercentFields(e.target.value);
     });
 
     warnigNameCompleter();
@@ -325,4 +328,18 @@
         return convertedStr;
     };
 
+function validatePercentFields(value) {
+    if(parseFloat(value) >= 10 || parseFloat(value) <= -10) {
+        compareNumber.value = '';
+        warnigNameCompleter();
+        Swal.fire({
+            title: 'با توجه به شرطی که شما تعیین کردید. مقدار این فیلد فقط میتواند بین 10- تا 10 باشد.',
+            type: 'error',
+            position: 'top-right',
+            toast: true,
+            showConfirmButton: false,
+            timer: 7000
+        })
+    }
+}
 </script>

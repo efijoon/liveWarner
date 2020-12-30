@@ -1,1 +1,160 @@
-<h1>لیست هشدارهای باز</h1>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+</link>
+<link rel="stylesheet" href="./style.css">
+<style>
+    .main-content {
+        width: 100% !important;
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+    }
+
+    .dataTables_info,
+    .dataTables_length {
+        float: right;
+    }
+
+    #files_list_paginate,
+    .dataTables_filter {
+        float: left;
+    }
+
+    .th_text {
+        color: black;
+    }
+</style>
+<div class="main-content mb-5">
+    <div class="row d-flex justify-content-center">
+        <h3 style="padding: 15px;border: 3px solid red;border-radius: 20px;">لیست هشدارهای باز</h3>
+    </div>
+    <table id="files_list" class="table table-striped dt-responsive text-center" style="width:100%;">
+        <thead class="thead_dark">
+            <tr>
+                <th class="th_text">هشدار شماره</th>
+                <th class="th_text">نام هشدار</th>
+                <th class="th_text">نام سهام</th>
+                <th class="th_text">بر اساس</th>
+                <th class="th_text">با شرط</th>
+                <th class="th_text">مقدار شرط</th>
+                <!-- <th class="th_text">تاریخ ایجاد هشدار</th> -->
+                <th class="th_text">مقدار سهام</th>
+                <th class="th_text">تنظیمات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% userWarnings.forEach(warning => { %>
+                <tr>
+                    <td><%= warning.index %></td>
+                    <td><%= warning.warningName %></td>
+                    <td><%= warning.symbolName %></td>
+                    <td><%= convertCompareField(warning.compareField) %></td>
+                    <td><%= convertComparator(warning.comparator) %></td>
+                    <td><%= warning.compareNumber %></td>
+                    <!-- <td><%= persianDate(warning.createdAt).format('jYYYY/jMM/jDD') %></td> -->
+                    <td>
+                        <% warningSymbols.forEach(symbol => { 
+                            if(warning.symbolID === symbol.namadID) { %>
+                                <span><%= symbol.data[convertCompareFieldToEnglish(warning.compareField)] %></span>
+                            <% }
+                        }) %>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-download btn-info"> ویرایش </button>
+                        <button class="btn btn-sm btn-download btn-danger"> حذف </button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<% 
+function convertCompareField(value) { 
+    switch (value) {
+        case '0':
+            return 'آخرین قیمت'
+        case '1':
+            return 'درصد تغییر آخرین قیمت'
+        case '2':
+            return 'قیمت پایانی'
+        case '3':
+            return 'درصد تغییر قیمت پایانی'
+        case '4':
+            return 'حجم معاملات'
+        case '5':
+            return 'ارزش معاملات'
+    }
+} 
+
+function convertCompareFieldToEnglish(value) { 
+    switch (value) {
+        case '0':
+            return 'dealingPrice'
+        case '1':
+            return 'dealingPricePercent'
+        case '2':
+            return 'lastPrice'
+        case '3':
+            return 'lastPricePercent'
+        case '4':
+            return 'hajmMoamelat'
+        case '5':
+            return 'arzeshMoamelat'
+    }
+} 
+
+function convertComparator(value) { 
+    switch (value) {
+        case 'gt':
+            return 'ب'
+        case 'gte':
+            return 'ب م'
+        case 'lt':
+            return 'ک'
+        case 'lte':
+            return 'ک م'
+        case 'e':
+            return 'م'
+    }
+}
+
+%>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let table = $('#files_list').DataTable({
+            "aLengthMenu": [
+                [5, 10, 25, -1],
+                [5, 10, 25, "All"]
+            ],
+            "iDisplayLength": 10,
+
+            "language": {
+                "sProcessing": "درحال جست و جو ...",
+                "sLengthMenu": "نمایش _MENU_ موارد",
+                "sZeroRecords": "موردی برای نمایش یافت نشد",
+                "sInfo": "نمایش مورد _START_ تا مورد _END_ از _TOTAL_ موارد",
+                "sInfoEmpty": "موردی یافت نشد",
+                "sInfoFiltered": "(جست و جو در بین _MAX_ مورد)",
+                "sInfoPostFix": "",
+                "sSearch": "جست و جو:",
+                "sUrl": "",
+                "order": [[ 0, "desc" ]],
+                "oPaginate": {
+                    "sFirst": "ابتدا",
+                    "sPrevious": "قبل",
+                    "sNext": "بعد",
+                    "sLast": "انتها"
+                }
+            }
+        });
+    });
+</script>
