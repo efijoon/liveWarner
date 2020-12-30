@@ -1,3 +1,4 @@
+const persianjs = require('persianjs');
 const middleware = require('./middleware');
 const User = require('app/models/user');
 const Warning = require('../../models/Warning');
@@ -33,10 +34,10 @@ class redirectIfAuthenticated extends middleware {
                                         this.comparator(item, parseFloat(this.fixNumber(symbol.data['lastPricePercent'])), req.user);
                                     break;
                                     case '4':
-                                        this.comparator(item, parseFloat(this.fixHajmOrArzesh(symbol.data['hajmMoamelat'])), req.user);
+                                        this.comparator(item, parseFloat(this.fixNumber(symbol.data['hajmMoamelat'])), req.user);
                                     break;
                                     case '5':
-                                        this.comparator(item, parseFloat(this.fixHajmOrArzesh(symbol.data['arzeshMoamelat'])), req.user);
+                                        this.comparator(item, parseFloat(this.fixNumber(symbol.data['arzeshMoamelat'])), req.user);
                                     break;
                                 }
                             }
@@ -78,42 +79,19 @@ class redirectIfAuthenticated extends middleware {
     }
 
     fixNumber(str) {
-        const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
-            arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
-
-        let replacePercent;
-        let convertedStr;
-
         if(str.includes('٪')) {
-            replacePercent = str.replace('٪', '');
-            convertedStr = replacePercent.replace('٫', '.');
-        } else {
-            convertedStr = str.replace('٬', '');
+            str = str.replace(/٪/g, '');
+            str = str.replace(/٫/g, '.');
         }
-
-        if (typeof convertedStr === 'string') {
-            for (var i = 0; i < 10; i++) {
-                convertedStr = convertedStr.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
-            }
-        }
+        
+        if(str.includes('٫')) str = str.replace(/٫/g, '.');
+        
+        str = str.replace(/٬/g, '');
+        
+        const convertedStr = persianjs(str).persianNumber();
 
         return convertedStr;
     };
-
-    fixHajmOrArzesh(str) {
-        const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
-            arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
-
-        let convertedStr = str.replace('٫', '.');
-
-        if (typeof convertedStr === 'string') {
-            for (var i = 0; i < 10; i++) {
-                convertedStr = convertedStr.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
-            }
-        }
-
-        return convertedStr;
-    }
 
     async sendWarnMail(body, email, warning) {
         console.log('ُSending email for warning: ' + warning.symbolName);
