@@ -38,59 +38,28 @@ class DashboardController extends controller {
         }
     }
     
+    async editWarning(req , res) {
+
+        const warning = await Warning.findById(req.body.id);
+
+        return res.status(200).send(warning);
+    }
+
     async makeWarning(req , res) {
-        const { symbolName, compareField, comparator, compareNumber, warningName } = req.body;
 
-        const namad = await Namad.findOne({ name: symbolName });
+        const result = await this.validateWarning(req, req.body, res);
 
-        if(! namad) {
-            return this.alertAndBack(req, res, {
-                title: 'لطفا یک نماد معتبر را انتخاب بکنید.',
-                type: 'error',
-                position: 'center',
-                toast: true,
-                showConfirmButton: false,
-                timer: 5000
-            })
-        }
+        if(! result) return;
 
-        if(!compareNumber || parseFloat(compareNumber) == 0 || !compareField || !comparator || !warningName) {
-            return this.alertAndBack(req, res, {
-                title: 'لطفا تمامی قسمت ها را وارد بکنید.',
-                type: 'error',
-                position: 'center',
-                toast: true,
-                showConfirmButton: false,
-                timer: 5000
-            })
-        }
-
-        const symbol = await Namad.findOne({ name: symbolName });
-        const validateResult = this.compareValidator(this.fixNumber(symbol.data[this.convertCompareField(compareField)]), comparator, compareNumber);
-
-        if(validateResult) {
-            return this.alertAndBack(req, res, {
-                title: 'شرطی که شما تعیین کردید. هم اکنون برقرار است و نیاز به فعال شدن ندارد.لطفا شرط دیگری را انتخاب کنید',
-                type: 'error',
-                position: 'center',
-                toast: true,
-                showConfirmButton: false,
-                timer: 7000
-            })
-        }
-
-        return console.log('Passes ...');
+        const namad = await Namad.findOne({ name: req.body.symbolName });
 
         const warnings = await Warning.find();
         const newWarning = new Warning({
             index: warnings.length + 1,
             user: req.user.id,
             symbolID: namad.namadID,
-            symbolName,
-            compareField,
-            comparator,
-            compareNumber: parseFloat(compareNumber),
-            warningName
+            compareNumber: parseFloat(req.body.compareNumber),
+            ...req.body
         })
         await newWarning.save();
 
@@ -104,6 +73,85 @@ class DashboardController extends controller {
         });
 
         res.redirect('/dashboard')
+    }
+
+    async updateWarning(req , res) {
+
+        const result = await this.validateWarning(req, req.body, res);
+
+        if(! result) return;
+
+        const namad = await Namad.findOne({ name: req.body.symbolName });
+
+        await Warning.findByIdAndUpdate(req.params.id, { ...req.body, compareNumber: parseFloat(req.body.compareNumber), symbolID: namad.namadID, });
+
+        this.alert(req, {
+            title: 'هشدار شما با موفقیت ویرایش شد.',
+            type: 'success',
+            position: 'center',
+            toast: true,
+            showConfirmButton: false,
+            timer: 5000
+        });
+
+        res.redirect('/warnings')
+    }
+
+    async deleteWarning(req , res) {
+        const warning = await Warning.findByIdAndDelete(req.body.id);
+        const warningsLength = (await Warning.find({ user: req.user._id, sent: false })).length;
+
+        res.status(200).send({ warning, warningsLength })
+    }
+
+    async validateWarning(req, body, res) {
+        const { symbolName, compareField, comparator, compareNumber, warningName } = body;
+
+        const namad = await Namad.findOne({ name: symbolName });
+
+        if(! namad) {
+            this.alertAndBack(req, res, {
+                title: 'لطفا یک نماد معتبر را انتخاب بکنید.',
+                type: 'error',
+                position: 'center',
+                toast: true,
+                showConfirmButton: false,
+                timer: 5000
+            });
+
+            return false;
+        }
+
+        if(!compareNumber || parseFloat(compareNumber) == 0 || !compareField || !comparator || !warningName) {
+            this.alertAndBack(req, res, {
+                title: 'لطفا تمامی قسمت ها را وارد بکنید.',
+                type: 'error',
+                position: 'center',
+                toast: true,
+                showConfirmButton: false,
+                timer: 5000
+            });
+
+            return false;
+        }
+
+        const symbol = await Namad.findOne({ name: symbolName });
+        const validateResult = this.compareValidator(this.fixNumber(symbol.data[this.convertCompareField(compareField)]), comparator, compareNumber);
+
+        if(validateResult) {
+            this.alertAndBack(req, res, {
+                title: 'شرطی که شما تعیین کردید. هم اکنون برقرار است و نیاز به فعال شدن ندارد.لطفا شرط دیگری را انتخاب کنید',
+                type: 'error',
+                position: 'center',
+                toast: true,
+                showConfirmButton: false,
+                timer: 7000
+            });
+
+            return false;
+        }
+
+        return true;
     }
 
     convertCompareField(value) { 

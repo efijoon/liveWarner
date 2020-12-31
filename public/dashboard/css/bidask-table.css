@@ -1,0 +1,29 @@
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: black;
+}
+
+.bidasks tr th,
+.bidasks tr td {
+    padding: 10px;
+    border-top: 1px solid #f1f1f1;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 1.4em;
+}
+
+.bidasks tr th.ask,
+.bidasks tr td.ask {
+    color: #409b51;
+}
+
+.bidasks tr th.ask,
+.bidasks tr td.bid {
+    color: #e62f2f;
+}
+
+.disableprice {
+    color: #c2c2c2 !important;
+    cursor: not-allowed;
+}
