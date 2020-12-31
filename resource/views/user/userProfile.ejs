@@ -1,0 +1,142 @@
+<style>
+    body {
+        color: #161616;
+    }
+
+    .account-settings .user-profile {
+        margin: 0 0 1rem 0;
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+
+    .account-settings .user-profile .user-avatar {
+        margin: 0 0 1rem 0;
+    }
+
+    .account-settings .user-profile .user-avatar img {
+        width: 90px;
+        height: 90px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+    }
+
+    .account-settings .user-profile h5.user-name {
+        margin: 0 0 0.5rem 0;
+    }
+
+    .account-settings .user-profile h6.user-email {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+
+    .account-settings .about {
+        margin: 1rem 0 0 0;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    .card {
+        box-shadow: 0px 0px 15px rgb(189, 189, 189);
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row gutters">
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-5 mb-lg-0">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="user-profile">
+                            <div class="user-avatar">
+                                <img id="profile-image" src="<%= user.image ? user.image : '/uploads/images/users/default.jpg' %>" alt="تصویر پروفایل">
+                            </div>
+                            <form id="image-form" action="/users/changeProfileImage" method="post" enctype="multipart/form-data">
+                                <div class="upload-image">
+                                    <input type="file" name="userImage" id="imageUploader"
+                                        style="opacity: 0;position: absolute;cursor: pointer;">
+                                    <span class="btn btn-success mb-4">انتخاب عکس جدید</span>
+                                </div>
+                                <div class="desc text-center">
+                                    <p style="padding: 5px;background: #e2e2e2;border-radius: 5px;">
+                                        توجه: برای تغییر عکس خود ابتدا بر روی انتخاب
+                                        عکس جدید کلیک کنید و پس از انتخاب کردن، بر روری گزینه ویرایش کلیک کنید.
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <form action="/users/updateProfile" method="POST">
+                        <div class="row gutters">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="fullName">نام کاربری</label>
+                                    <input value="<%= user.username %>" type="text"
+                                        class="form-control" name="username" placeholder="نام کاربری را وارد کنید....">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="eMail">ایمیل</label>
+                                    <input value="<%= user.email %>" type="email" name="email"
+                                        class="form-control" id="email" placeholder="ایمیل خود را وارد کنید ...">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="phone">تلفن</label>
+                                    <input value="<%= user.telephone %>" type="text" name="telephone"
+                                        class="form-control" id="phone" placeholder="تلفن خود را وارد کنید ...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h6 class="mb-3">درباره من</h6>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <textarea rows="5" type="text" class="form-control" name="about"
+                                        placeholder="متنی درباره خودتان ..."><%= user.about %>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-right">
+                                    <button type="submit" id="submit" name="submit"
+                                        class="btn btn-primary btn-block">ویرایش</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#profile-image').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#imageUploader").change(function(e) {
+        const imageForm = document.getElementById('image-form');
+        imageForm.submit();
+    });
+</script>

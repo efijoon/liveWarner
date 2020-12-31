@@ -21,6 +21,7 @@ class DashboardController extends controller {
             warningSymbolIDs.includes(symbol.namadID) && warningSymbols.push(symbol);
         });
 
+
         res.render('warnings/warnings', { layout: 'dashboard/master', userWarnings, warningSymbols });
     }
 

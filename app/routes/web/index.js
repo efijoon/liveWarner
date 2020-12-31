@@ -19,6 +19,10 @@ router.use('/', redirectIfNotAdmin.isAdmin, homeRouter);
 const warningRouter = require('app/routes/web/warning');
 router.use('/warnings', redirectIfNotAuthenticated.handle, warningRouter);
 
+// User Router
+const userRouter = require('app/routes/web/user');
+router.use('/users', redirectIfNotAuthenticated.handle, userRouter);
+
 // Auth Router
 const authRouter = require('app/routes/web/auth');
 router.use('/auth' , redirectIfAuthenticated.handle, authRouter);
