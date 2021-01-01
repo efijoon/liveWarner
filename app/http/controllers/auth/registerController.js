@@ -19,9 +19,10 @@ class registerController extends controller {
 
     passport.authenticate("local.register", async (err, newUser) => {
 
+      // console.log(newUser);
         if (! newUser) {
           return this.alertAndBack(req, res, {
-              title: 'چنین کاربری با این نام کاربری در سایت موجود میباشد.',
+              title: 'چنین کاربری با این ایمیل یا تلفن در سایت موجود میباشد.',
               type: 'error',
               toast: true
           });

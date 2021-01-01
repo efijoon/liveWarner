@@ -6,23 +6,7 @@ const Warning = require('../../models/Warning');
 class DashboardController extends controller {
     
     async index(req , res) {
-        // آیدی نمادهایی که در هشدارهای کاربر هستند
-        let warningSymbolIDs = [];
-        const userWarnings = await Warning.find({ user: req.user.id, sent: false });
-
-        userWarnings.forEach(warning => {
-            warningSymbolIDs.push(warning.symbolID);
-        });
-
-        const symbols = await Namad.find();
-        // اطلاعات بروز نمادهایی که در هشدارهای کاربر هستند.
-        const warningSymbols = [];
-        symbols.forEach(symbol => {
-            warningSymbolIDs.includes(symbol.namadID) && warningSymbols.push(symbol);
-        });
-
-
-        res.render('warnings/warnings', { layout: 'dashboard/master', userWarnings, warningSymbols });
+        this.warnings(req, res, false);
     }
 
     async createWarning(req , res) {
@@ -153,6 +137,29 @@ class DashboardController extends controller {
         }
 
         return true;
+    }
+
+    async doneWarnings(req , res) {
+        this.warnings(req, res, true);
+    }
+
+    async warnings(req, res, sent) {
+        // آیدی نمادهایی که در هشدارهای کاربر هستند
+        let warningSymbolIDs = [];
+        const userWarnings = await Warning.find({ user: req.user.id, sent });
+
+        userWarnings.forEach(warning => {
+            warningSymbolIDs.push(warning.symbolID);
+        });
+
+        const symbols = await Namad.find();
+        // اطلاعات بروز نمادهایی که در هشدارهای کاربر هستند.
+        const warningSymbols = [];
+        symbols.forEach(symbol => {
+            warningSymbolIDs.includes(symbol.namadID) && warningSymbols.push(symbol);
+        });
+
+        res.render('warnings/warnings', { layout: 'dashboard/master', userWarnings, warningSymbols });
     }
 
     convertCompareField(value) { 

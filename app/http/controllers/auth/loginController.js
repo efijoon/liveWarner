@@ -18,14 +18,12 @@ class loginController extends controller {
                 })
             }
             
-            // req.logIn(user , err => {
+            req.logIn(user , err => {
                 if(req.body.remember) user.setRememberToken(res);
 
                 return res.redirect('/dashboard');
-            // });
-
-            res.send('Done !')
-
+            });
+            
         })(req, res , next);
     }
 

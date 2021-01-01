@@ -1,6 +1,5 @@
 const persianjs = require('persianjs');
 const middleware = require('./middleware');
-const User = require('app/models/user');
 const Warning = require('../../models/Warning');
 const Namad = require('../../models/Namad');
 const nodemailer = require('nodemailer');

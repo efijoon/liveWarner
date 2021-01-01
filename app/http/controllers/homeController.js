@@ -3,7 +3,7 @@ const controller = require('./controller');
 class HomeController extends controller {
     
     index(req , res) {
-        res.render('home/index');
+        res.render('home/index', { title: 'هشداردهنده مصدقیان' });
     }
 
     dashboard(req , res) {

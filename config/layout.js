@@ -9,7 +9,7 @@ module.exports = {
         expressLayouts,
         extractScripts : true,
         extractStyles : true,
-        master : 'home/master'
+        master : 'home/index'
     }
 }
 

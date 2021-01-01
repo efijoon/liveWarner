@@ -1,5 +1,7 @@
 const controller = require('app/http/controllers/controller');
 const User = require('app/models/user');
+const fs = require('fs');
+const path = require('path');
 
 class userController extends controller {
 
@@ -15,7 +17,6 @@ class userController extends controller {
 
     async updateProfile(req , res) {
         try {
-
             await User.findByIdAndUpdate(req.user.id, { ...req.body });
 
             this.alertAndBack(req, res, {
@@ -31,15 +32,16 @@ class userController extends controller {
         }
     }
 
-    async changeProfileImage(req , res) {
-        try {
+    async changeProfileImage(req , res, next) {
+        // try {
 
-            if(req.file) {
-                await User.findByIdAndUpdate(req.user.id, { ...req.body, image: req.file.path.substr(6) });
-            } else {
-                await User.findByIdAndUpdate(req.user.id, { ...req.body });
+            let user = await User.findById(req.user.id);
+
+            if(user.image) {
+                fs.unlinkSync(path.resolve(__dirname, `../../../public/${user.image}`));
             }
 
+            await User.findByIdAndUpdate(req.user.id, { ...req.body, image: req.file.path.substr(6) });
 
             this.alertAndBack(req, res, {
                 title: 'عکس پروفایل شما با موفقیت تغییر یافت.',
@@ -50,9 +52,9 @@ class userController extends controller {
                 timer: 5000
             });
             
-        } catch (err) {
-            next(err);
-        }
+        // } catch (err) {
+        //     next(err);
+        // }
     }
 
 }

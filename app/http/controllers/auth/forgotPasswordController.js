@@ -36,13 +36,15 @@ class forgotPasswordController extends controller {
         await newPasswordReset.save();
 
         let mailOptions = {
-            from: '"سایت چت باز', // sender address
+            from: 'پلتفرم هشداردهنده ی مصدقیان', // sender address
             to: `${req.body.email}`, // list of receivers
             subject: 'ریست کردن پسورد', // Subject line
             html: `
+            <div class="container" style="text-align: center;border: 2px solid red;border-radius: 12px;font-weight: 700;">
                 <h2>ریست کردن پسورد</h2>
                 <h3><p>برای ریست کردن پسورد بر روی لینک زیر کلیک کنید</p></h3>
                 <h1><a href="${config.siteurl}/auth/password/reset/${newPasswordReset.token}?e=${req.body.email}">ریست کردن</a></h1>
+            </div>
             ` // html body
         };
 
@@ -53,7 +55,7 @@ class forgotPasswordController extends controller {
 
             this.alert(req, {
                 title : 'ایمیل حاوی لینک پسورد به ایمیل شما ارسال شد.',
-                type  : 'info',
+                type  : 'success',
                 toast: true
             });
 
