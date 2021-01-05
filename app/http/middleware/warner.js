@@ -133,7 +133,7 @@ class redirectIfAuthenticated extends middleware {
 
     const convertedStr = persianjs(str).persianNumber();
 
-    return convertedStr;
+    return convertedStr._str;
   }
 
   async sendWarnMail(body, email, warning) {
@@ -158,13 +158,13 @@ class redirectIfAuthenticated extends middleware {
       console.log(error, info.response);
       if (error) {
         console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
       }
+
+      // console.log("Email sent: " + info.response);
     });
 
-    // warning.sent = true;
-    // await warning.save();
+    warning.sent = true;
+    await warning.save();
   }
 }
 
