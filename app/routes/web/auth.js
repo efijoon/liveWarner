@@ -15,8 +15,8 @@ router.post('/login' , loginController.login);
 router.get('/register' , registerController.showRegsitrationForm);
 router.post('/register' , registerController.register);
 
-router.get('/password/sendRecoveryEmail' , forgotPasswordController.showForgotPassword);
-router.post('/password/sendRecoveryEmail' , forgotPasswordController.sendResetLink);
+router.get('/password/sendRecoveryEmail', forgotPasswordController.showForgotPassword);
+router.post('/password/sendRecoveryEmail', forgotPasswordController.sendResetLink);
 
 router.get('/password/reset/:token' , resetPasswordController.showResetPassword);
 router.post('/password/reset/:token' , resetPasswordController.resetPassword);

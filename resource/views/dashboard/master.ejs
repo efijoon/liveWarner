@@ -19,11 +19,12 @@
 
     <!-- Custom styles for this template-->
     <link href="/dashboard/css/sb-admin-2.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v27.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
     <%- style %>
 
 </head>
 
-<body id="page-top">
+<body id="page-top" style="font-family: 'Vazir', sans-serif;">
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -55,8 +56,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/warnings/createWarning">ثبت هشدار جدید</a>
                         <a class="collapse-item" href="/warnings">هشدارهای باز</a>
-                        <a class="collapse-item" href="/warnings">هشدارهای موفق</a>
-                        <a class="collapse-item" href="/warnings">هشدارهای ناموفق</a>
+                        <a class="collapse-item" href="/warnings/doneWarnings">هشدارهای فعال شده</a>
                     </div>
                 </div>
             </li>
@@ -101,7 +101,6 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
 
@@ -115,7 +114,7 @@
 
                     <!-- Topbar Search -->
                     <!-- mr-auto -->
-                    <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <!-- <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light small" placeholder="جست و جو کنید..."
                                 aria-label="Search" aria-describedby="basic-addon2">
@@ -125,7 +124,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav mr-auto">
@@ -154,16 +153,14 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
+                        <!-- Nav Item - Alerts
                         <!-- transform: translateX(290px); -->
-                        <li class="nav-item dropdown no-arrow mx-1" style="direction: ltr;">
+                        <!-- <li class="nav-item dropdown no-arrow mx-1" style="direction: ltr;">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
-                            <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
@@ -203,17 +200,17 @@
                                     </div>
                                 </a>
                             </div>
-                        </li>
+                        </li> -->
 
                         <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow" style="margin-left: 85px;">
+                        <!-- <li class="nav-item dropdown no-arrow" style="margin-left: 85px;">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
+
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
-                            <!-- Dropdown - Messages -->
+
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
@@ -221,7 +218,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="">
+                                        <img class="rounded-circle" src="" alt="">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -232,7 +229,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="">
+                                        <img class="rounded-circle" src="" alt="">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -243,7 +240,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="">
+                                        <img class="rounded-circle" src="" alt="">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -254,8 +251,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"alt="">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div>
@@ -265,7 +261,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </li>
+                        </li>  -->
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -273,13 +269,13 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="ml-4 mt-1 d-none d-lg-inline text-gray-600 small">عرفان پورسینا</span>
-                                <img class="img-profile rounded-circle" src="/dashboard/img/undraw_profile.svg">
+                                <span class="ml-4 mt-1 d-none d-lg-inline text-gray-600 small"><%= req.user.username %></span>
+                                <img class="img-profile rounded-circle" src="<%= req.user.image ? req.user.image : '/uploads/images/users/default.jpg' %>">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown" style="transform: translateX(50px);">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/users/userProfile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     صحفه کاربری
                                 </a>
@@ -288,7 +284,7 @@
                                     تاریخچه معاملات
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="/logout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     خروج از حساب
                                 </a>
@@ -301,11 +297,11 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <!-- <div class="container-fluid"> -->
 
                     <%- body %>
 
-                </div>
+                <!-- </div> -->
                 <!-- /.container-fluid -->
 
             </div>
@@ -313,11 +309,7 @@
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
+                <span style="float: right;font-size: 10px;margin-right: 20px;">تهیه و توسعه توسط: عرفان پورسینا</span>
             </footer>
             <!-- End of Footer -->
 
@@ -330,26 +322,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>
     <%- include(viewPath('layouts/error-messages')) -%>

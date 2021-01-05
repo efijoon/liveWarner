@@ -1,9 +1,7 @@
 
 <html dir="rtl">
 <head>
-	<title>
-		چت باز
-	</title>
+	<title><%= title %></title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/login/style.css">
 </head>
@@ -34,26 +32,16 @@
             </form>
 
             <form class="form-signup" action="/auth/register" method="POST" name="form"> 
-                <label for="fullname">نام کامل</label> 
-                <input class="form-styling" type="text" name="fullname" value="<%= old('fullname') %>" required/> 
+                <label for="username">نام کامل</label> 
+                <input class="form-styling" type="text" name="username" value="<%= old('username') %>" required/> 
                 <label for="email">ایمیل</label> 
                 <input class="form-styling" type="text" name="email" value="<%= old('email') %>" required/> 
+                <label for="confirmpassword">تلفن</label> 
+                <input class="form-styling" type="text" name="telephone" value="<%= old('telephone') %>" required/> 
                 <label for="password">رمز عبور</label> 
-                <input class="form-styling" type="password" name="registerPassword" value="<%= old('registerPassword') %>" required/> 
-                <label for="confirmpassword">تایید رمز عبور</label> 
-                <input class="form-styling" type="password" name="confirmpassword" value="<%= old('confirmpassword') %>" required/> 
+                <input class="form-styling" type="password" name="password" value="<%= old('password') %>" required/> 
                 <button type="submit" class="btn-signup" style="color: white;">عضویت</button> 
             </form>
-
-            <!-- <div class="success"> 
-                <svg style="height: 100px;"></svg>
-                <div class="successtext">
-                    <p> از عضویت شما در سایت ممنونیم...</p>
-                    <p> شما هم اکنون در سایت عضو هستید و میتوانید به حساب کاربری خود وارد شوید ...</p>
-                    <a href="/auth/login" class="btn btn-primary">رفتن به صفحه ورود</a>
-                </div>
-            </div> -->
-
         </div>
         <div class="forgot"> <a href="/auth/password/sendRecoveryEmail" style="color: white;">رمز عبورم را فراموش کردم</a> </div>
     </div> 

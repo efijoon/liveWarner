@@ -7,7 +7,10 @@ const mongoosePaginate = require('mongoose-paginate');
 const userSchema = Schema({
     username : { type : String , required : true },
     admin : { type : Boolean ,  default : 0 },
-    email : { type : String , unique : true  ,required : true},
+    email : { type : String , unique : true, required : true},
+    telephone : { type : String , unique : true, required : true},
+    about: { type : String , default : 'سلام. من یکی از استفاده کنندگان پلتفرم هشدار دهنده مصدقیان هستم.'},
+    image: { type : String , default : null },
     password : { type : String ,  required : true },
     rememberToken : { type : String , default : null },
 } , { timestamps : true , toJSON : { virtuals : true } });

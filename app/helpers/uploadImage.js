@@ -3,11 +3,7 @@ const mkdirp = require('mkdirp');
 const fs = require('fs');
 
 const getDirImage = () => {
-    let year = new Date().getFullYear();
-    let month = new Date().getMonth() + 1;
-    let day = new Date().getDay();
-
-    return `./public/uploads/images/${year}/${month}/${day}`;
+    return `./public/uploads/images/users`;
 }
 
 
@@ -23,7 +19,6 @@ const ImageStorage = multer.diskStorage({
             cb(null , file.originalname);
         else
             cb(null , Date.now() + '-' + file.originalname);
-            
     }
 })
 

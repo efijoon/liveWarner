@@ -15,20 +15,24 @@ passport.deserializeUser(function(id, done) {
 
 passport.use('local.register' , new localStrategy({
     usernameField : 'email',
-    passwordField : 'registerPassword',
+    passwordField : 'password',
     passReqToCallback : true
-} , (req , email ,  registerPassword , done) => {
-    User.findOne({ email } , (err , user) => {
+} , (req , email ,  password , done) => {
+    User.findOne({ email } , async (err , user) => {
+        const { username, email, telephone } = req.body;
 
         if(err) return done(err);
         if(user) return done(err , false);
+        
+        const telUser = await User.findOne({ telephone });
+        if(telUser) return done(err , false);
 
         const newUser = new User({
-            username : req.body.fullname,
-            email,
+            username,
+            email, telephone
         });
 
-        newUser.$set({ password : newUser.hashPassword(registerPassword) });
+        newUser.$set({ password : newUser.hashPassword(password) });
         newUser.save(err => {
             if(err) return done(err , false);
             done(null, newUser);

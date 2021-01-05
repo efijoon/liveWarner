@@ -22,7 +22,7 @@ class errorHandler {
     
         if(config.debug) return res.render('errors/stack' , { ...layouts , message , stack});
     
-        return res.render(`errors/${statusCode}` , { ...layouts , message , stack})
+        return res.render(`dashboard/404` , { ...layouts , message , stack })
     }
 }
 

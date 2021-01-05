@@ -26,7 +26,7 @@ module.exports = class Application {
 
     setupExpress() {
         const server = http.createServer(app);
-        server.listen(config.port , () => console.log(`Listening on port ${config.port}`));
+        server.listen(process.env.PORT || 3000 , () => console.log(`Listening on port ${process.env.PORT}`));
     }
 
     setMongoConnection() {
@@ -47,8 +47,6 @@ module.exports = class Application {
      */
     setConfig() {
         require('app/passport/passport-local');
-        require('app/passport/passport-google');
-        require('app/passport/passport-jwt');
  
         app.enable('trust proxy');
         app.use(helmet());
