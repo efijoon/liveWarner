@@ -163,8 +163,8 @@ class redirectIfAuthenticated extends middleware {
       }
     });
 
-    warning.sent = true;
-    await warning.save();
+    // warning.sent = true;
+    // await warning.save();
   }
 }
 
